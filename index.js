@@ -6,7 +6,7 @@ const nconf = require('nconf');
 
 nconf.file({ file: resolve(__dirname, './config/user.json') });
 
-const time = moment(moment().subtract(3, 'days').format("YYYY-MM-DD")).unix()
+const time = moment(moment().subtract(1, 'days').format("YYYY-MM-DD")).unix()
 const params = {
   "query": `
     {
@@ -79,16 +79,17 @@ function each(list) {
     tokenPools.add(token0.symbol)
     if (tokenPools.size !== currentPoolSize) {
       // 有新流动性添加
+      currentPoolSize = tokenPools.size
       sendDD(`uniswap
 创建时间：${createTime}
 交易ID：${txId}
 流动总量：${getInt(liquidity)}
 成交量：${getInt(volume)}
 交易数量：${txCount}
-代币：${token0.symbol}
-代币名称：${token0.name}
-代币ID：${token0.id}
-代币交易总量：${getInt(token0.tradeVolumeUSD)}
+代币1：${token0.symbol}
+代币名称1：${token0.name}
+代币2：${token1.symbol}
+代币名称2：${token1.name}
 Vol/Liq：${parseFloat(b).toFixed(1)}`);
     }
   });
